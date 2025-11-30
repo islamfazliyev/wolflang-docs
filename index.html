@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WolfLang Documentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a202c;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #dd6b20;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ed8936;
+        }
+
+        /* Custom styles for code blocks */
+        .code-block {
+            background-color: #2d3748;
+            border-left: 4px solid #ed8936;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Animation for code examples */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        /* Active navigation link */
+        .nav-link.active {
+            color: #ed8936;
+            border-left: 3px solid #ed8936;
+            padding-left: 1rem;
+            margin-left: -1rem;
+        }
+
+        /* Custom syntax highlighting */
+        .keyword { color: #ff79c6; }
+        .type { color: #8be9fd; }
+        .string { color: #f1fa8c; }
+        .number { color: #bd93f9; }
+        .comment { color: #6272a4; }
+        .operator { color: #ff79c6; }
+        .identifier { color: #50fa7b; }
+
+        /* Custom gradient for hero */
+        .hero-gradient {
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #4a5568 100%);
+        }
+
+        /* Wolf icon styling */
+        .wolf-icon {
+            filter: invert(67%) sepia(60%) saturate(500%) hue-rotate(360deg) brightness(100%) contrast(90%);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200 font-sans">
+    <!-- Header -->
+    <header class="bg-gray-800 sticky top-0 z-10 shadow-lg">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="wolf-icon">
+                    <img src="https://raw.githubusercontent.com/islamfazliyev/Wolf-Lang/eac9c8081b6f0b0fdd95f59f217c25b92555e730/assets/wolflang.svg" alt="WolfLang Logo" class="h-8 w-8">
+                </div>
+                <h1 class="text-2xl font-bold">WolfLang <span class="text-sm font-normal text-gray-400">v0.1</span></h1>
+            </div>
+            <nav class="hidden md:flex space-x-6">
+                <a href="#overview" class="hover:text-orange-400 transition-colors">Overview</a>
+                <a href="#data-types" class="hover:text-orange-400 transition-colors">Data Types</a>
+                <a href="#variables" class="hover:text-orange-400 transition-colors">Variables</a>
+                <a href="#control-flow" class="hover:text-orange-400 transition-colors">Control Flow</a>
+                <a href="#functions" class="hover:text-orange-400 transition-colors">Functions</a>
+                <a href="#embeddable" class="hover:text-orange-400 transition-colors">Embeddable</a>
+                <a href="#examples" class="hover:text-orange-400 transition-colors">Examples</a>
+            </nav>
+            <button id="mobile-menu-btn" class="md:hidden text-xl">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-gray-800 px-4 pb-4">
+            <div class="flex flex-col space-y-3">
+                <a href="#overview" class="hover:text-orange-400 transition-colors">Overview</a>
+                <a href="#data-types" class="hover:text-orange-400 transition-colors">Data Types</a>
+                <a href="#variables" class="hover:text-orange-400 transition-colors">Variables</a>
+                <a href="#control-flow" class="hover:text-orange-400 transition-colors">Control Flow</a>
+                <a href="#functions" class="hover:text-orange-400 transition-colors">Functions</a>
+                <a href="#embeddable" class="hover:text-orange-400 transition-colors">Embeddable</a>
+                <a href="#examples" class="hover:text-orange-400 transition-colors">Examples</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient py-20">
+        <div class="container mx-auto px-4 text-center">
+            <div class="max-w-3xl mx-auto">
+                <div class="wolf-icon flex justify-center mb-6">
+                    <img src="https://raw.githubusercontent.com/islamfazliyev/Wolf-Lang/eac9c8081b6f0b0fdd95f59f217c25b92555e730/assets/wolflang.svg" alt="WolfLang Logo" class="h-24 w-24">
+                </div>
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">WolfLang Programming Language</h1>
+                <p class="text-xl text-gray-300 mb-8">A statically-typed, interpreted programming language with a focus on simplicity and performance.</p>
+                <div class="flex justify-center space-x-4">
+                    <a href="#getting-started" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors">
+                        Get Started
+                    </a>
+                    <a href="#examples" class="border border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white font-semibold py-2 px-6 rounded-lg transition-colors">
+                        View Examples
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Sidebar Navigation -->
+            <aside class="lg:w-1/4 bg-gray-800 rounded-lg p-6 h-fit sticky top-24">
+                <h2 class="text-xl font-bold mb-4 text-orange-400">Documentation</h2>
+                <nav class="space-y-2">
+                    <a href="#overview" class="block py-2 px-3 rounded hover:bg-gray-700 transition-colors nav-link">Overview</a>
+                    <a href="#getting-started" class="block py-2 px-3 rounded hover:bg-gray-700 transition-colors nav-link">Getting Started</a>
+                    <a href="#data-types" class="block py-2 px-3 rounded hover:bg-gray-700 transition-colors nav-link">Data Types</a>
+                    <a href="#variables" class="block py-2 px-3 rounded hover:bg-gray-700 transition-colors nav-link">Variables</a>
+                    <a href="#operators" class="block py-2 px-3 rounded hover:bg-gray-700 transition-colors nav-link">Operators</a>
+                    <a href="#control-flow" class="block py-2 px-3 rounded hover:bg-gray-700 transition-colors nav-link">Control Flow</a>
+                    <a href="#functions" class="block py-2 px-3 rounded hover:bg-gray-700 transition-colors nav-link">Functions</a>
+                    <a href="#lists" class="block py-2 px-3 rounded hover:bg-gray-700 transition-colors nav-link">Lists</a>
+                    <a href="#built-in-functions" class="block py-2 px-3 rounded hover:bg-gray-700 transition-colors nav-link">Built-in Functions</a>
+                    <a href="#embeddable" class="block py-2 px-3 rounded hover:bg-gray-700 transition-colors nav-link">Embeddable</a>
+                    <a href="#examples" class="block py-2 px-3 rounded hover:bg-gray-700 transition-colors nav-link">Examples</a>
+                </nav>
+            </aside>
+
+            <!-- Content -->
+            <div class="lg:w-3/4">
+                <!-- Overview Section -->
+                <section id="overview" class="mb-16 fade-in">
+                    <h2 class="text-3xl font-bold mb-6 text-orange-400 border-b border-gray-700 pb-2">Overview</h2>
+                    <p class="mb-4">WolfLang is a statically-typed, interpreted programming language designed for simplicity and educational purposes. It features a clean syntax, static type checking, and support for common programming constructs.</p>
+
+                    <div class="bg-gray-800 rounded-lg p-6 mt-6">
+                        <h3 class="text-xl font-bold mb-3 text-orange-400">Key Features</h3>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>Statically typed with type inference</li>
+                            <li>Support for common data types (int, float, string, bool, list)</li>
+                            <li>Lexical scoping with variable shadowing</li>
+                            <li>Control flow statements (if, while, for)</li>
+                            <li>Function definitions and calls</li>
+                            <li>List data structure with built-in methods</li>
+                            <li>Error handling with detailed error messages</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Getting Started Section -->
+                <section id="getting-started" class="mb-16 fade-in">
+                    <h2 class="text-3xl font-bold mb-6 text-orange-400 border-b border-gray-700 pb-2">Getting Started</h2>
+
+                    <h3 class="text-xl font-bold mt-6 mb-3">Running WolfLang Code</h3>
+                    <p class="mb-4">WolfLang code can be executed in two ways:</p>
+
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">1. From a File</h4>
+                        <div class="code-block rounded-lg p-4 mb-4">
+                            <pre><code class="text-sm"><span class="comment"># Save your code to a file (e.g., program.wolf)</span>
+<span class="comment"># Then run it with:</span>
+./wolflang --file program.wolf</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">2. Interactive Mode</h4>
+                        <div class="code-block rounded-lg p-4 mb-4">
+                            <pre><code class="text-sm"><span class="comment"># Run the WolfLang interpreter without arguments</span>
+./wolflang
+
+<span class="comment"># Type your code, then type 'run()' to execute</span>
+<span class="keyword">let</span> <span class="type">int</span> x = <span class="number">10</span>
+<span class="keyword">print</span> x
+run()</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Data Types Section -->
+                <section id="data-types" class="mb-16 fade-in">
+                    <h2 class="text-3xl font-bold mb-6 text-orange-400 border-b border-gray-700 pb-2">Data Types</h2>
+                    <p class="mb-4">WolfLang supports several primitive data types and one composite type:</p>
+
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-gray-800 rounded-lg overflow-hidden mb-6">
+                            <thead class="bg-gray-700">
+                                <tr>
+                                    <th class="py-3 px-4 text-left">Type</th>
+                                    <th class="py-3 px-4 text-left">Keyword</th>
+                                    <th class="py-3 px-4 text-left">Description</th>
+                                    <th class="py-3 px-4 text-left">Example</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-700">
+                                <tr>
+                                    <td class="py-3 px-4">Integer</td>
+                                    <td class="py-3 px-4"><code class="type">int</code></td>
+                                    <td class="py-3 px-4">Whole numbers</td>
+                                    <td class="py-3 px-4"><code class="number">42</code>, <code class="number">-15</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4">Float</td>
+                                    <td class="py-3 px-4"><code class="type">float</code></td>
+                                    <td class="py-3 px-4">Floating-point numbers</td>
+                                    <td class="py-3 px-4"><code class="number">3.14</code>, <code class="number">-2.5</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4">String</td>
+                                    <td class="py-3 px-4"><code class="type">string</code></td>
+                                    <td class="py-3 px-4">Text data</td>
+                                    <td class="py-3 px-4"><code class="string">"Hello, World!"</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4">Boolean</td>
+                                    <td class="py-3 px-4"><code class="type">bool</code></td>
+                                    <td class="py-3 px-4">True/False values</td>
+                                    <td class="py-3 px-4"><code class="keyword">true</code>, <code class="keyword">false</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4">List</td>
+                                    <td class="py-3 px-4"><code class="type">list</code></td>
+                                    <td class="py-3 px-4">Collection of values</td>
+                                    <td class="py-3 px-4"><code>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Variables Section -->
+                <section id="variables" class="mb-16 fade-in">
+                    <h2 class="text-3xl font-bold mb-6 text-orange-400 border-b border-gray-700 pb-2">Variables</h2>
+
+                    <h3 class="text-xl font-bold mt-6 mb-3">Variable Declaration</h3>
+                    <p class="mb-4">Variables in WolfLang must be declared with an explicit type:</p>
+
+                    <div class="code-block rounded-lg p-4 mb-6">
+                        <pre><code class="text-sm"><span class="comment"># Variable declaration syntax</span>
+<span class="keyword">let</span> <span class="type">&lt;type&gt;</span> <span class="identifier">&lt;name&gt;</span> = <span class="identifier">&lt;value&gt;</span>
+
+<span class="comment"># Examples</span>
+<span class="keyword">let</span> <span class="type">int</span> age = <span class="number">25</span>
+<span class="keyword">let</span> <span class="type">float</span> price = <span class="number">19.99</span>
+<span class="keyword">let</span> <span class="type">string</span> name = <span class="string">"Alice"</span>
+<span class="keyword">let</span> <span class="type">bool</span> is_active = <span class="keyword">true</span>
+<span class="keyword">let</span> <span class="type">list</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</code></pre>
+                    </div>
+
+                    <h3 class="text-xl font-bold mt-6 mb-3">Variable Assignment</h3>
+                    <p class="mb-4">Once declared, variables can be reassigned with new values of the same type:</p>
+
+                    <div class="code-block rounded-lg p-4 mb-6">
+                        <pre><code class="text-sm"><span class="keyword">let</span> <span class="type">int</span> count = <span class="number">10</span>
+count = <span class="number">20</span>  <span class="comment"># Valid - same type</span>
+<span class="comment"># count = "hello"  # Error - type mismatch!</span></code></pre>
+                    </div>
+
+                    <h3 class="text-xl font-bold mt-6 mb-3">Scope</h3>
+                    <p class="mb-4">WolfLang uses lexical scoping with variable shadowing. Variables can be accessed from inner scopes, and inner scopes can shadow variables from outer scopes.</p>
+
+                    <div class="code-block rounded-lg p-4 mb-6">
+                        <pre><code class="text-sm"><span class="keyword">let</span> <span class="type">int</span> x = <span class="number">10</span>  <span class="comment"># Global scope</span>
+
+<span class="keyword">if</span> x > <span class="number">5</span> {
+    <span class="keyword">let</span> <span class="type">int</span> y = <span class="number">20</span>  <span class="comment"># Local scope</span>
+    <span class="keyword">let</span> <span class="type">int</span> x = <span class="number">30</span>  <span class="comment"># Shadows the global x</span>
+    <span class="keyword">print</span> x  <span class="comment"># Prints 30</span>
+    <span class="keyword">print</span> y  <span class="comment"># Prints 20</span>
+}
+
+<span class="keyword">print</span> x  <span class="comment"># Prints 10 (global x unaffected)</span>
+<span class="comment"># print y  # Error - y is out of scope</span></code></pre>
+                    </div>
+                </section>
+
+                <!-- Operators Section -->
+                <section id="operators" class="mb-16 fade-in">
+                    <h2 class="text-3xl font-bold mb-6 text-orange-400 border-b border-gray-700 pb-2">Operators</h2>
+
+                    <h3 class="text-xl font-bold mt-6 mb-3">Arithmetic Operators</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-gray-800 rounded-lg overflow-hidden mb-6">
+                            <thead class="bg-gray-700">
+                                <tr>
+                                    <th class="py-3 px-4 text-left">Operator</th>
+                                    <th class="py-3 px-4 text-left">Description</th>
+                                    <th class="py-3 px-4 text-left">Example</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-700">
+                                <tr>
+                                    <td class="py-3 px-4"><code class="operator">+</code></td>
+                                    <td class="py-3 px-4">Addition</td>
+                                    <td class="py-3 px-4"><code class="number">5 + 3</code> → <code class="number">8</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4"><code class="operator">-</code></td>
+                                    <td class="py-3 px-4">Subtraction</td>
+                                    <td class="py-3 px-4"><code class="number">5 - 3</code> → <code class="number">2</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4"><code class="operator">*</code></td>
+                                    <td class="py-3 px-4">Multiplication</td>
+                                    <td class="py-3 px-4"><code class="number">5 * 3</code> → <code class="number">15</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4"><code class="operator">/</code></td>
+                                    <td class="py-3 px-4">Division</td>
+                                    <td class="py-3 px-4"><code class="number">6 / 3</code> → <code class="number">2</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 class="text-xl font-bold mt-6 mb-3">Comparison Operators</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-gray-800 rounded-lg overflow-hidden mb-6">
+                            <thead class="bg-gray-700">
+                                <tr>
+                                    <th class="py-3 px-4 text-left">Operator</th>
+                                    <th class="py-3 px-4 text-left">Description</th>
+                                    <th class="py-3 px-4 text-left">Example</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-700">
+                                <tr>
+                                    <td class="py-3 px-4"><code class="operator">==</code></td>
+                                    <td class="py-3 px-4">Equal to</td>
+                                    <td class="py-3 px-4"><code class="number">5 == 5</code> → <code class="keyword">true</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4"><code class="operator">!=</code></td>
+                                    <td class="py-3 px-4">Not equal to</td>
+                                    <td class="py-3 px-4"><code class="number">5 != 3</code> → <code class="keyword">true</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4"><code class="operator">></code></td>
+                                    <td class="py-3 px-4">Greater than</td>
+                                    <td class="py-3 px-4"><code class="number">5 > 3</code> → <code class="keyword">true</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4"><code class="operator"><</code></td>
+                                    <td class="py-3 px-4">Less than</td>
+                                    <td class="py-3 px-4"><code class="number">5 < 3</code> → <code class="keyword">false</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4"><code class="operator">>=</code></td>
+                                    <td class="py-3 px-4">Greater than or equal to</td>
+                                    <td class="py-3 px-4"><code class="number">5 >= 5</code> → <code class="keyword">true</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4"><code class="operator"><=</code></td>
+                                    <td class="py-3 px-4">Less than or equal to</td>
+                                    <td class="py-3 px-4"><code class="number">5 <= 3</code> → <code class="keyword">false</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Control Flow Section -->
+                <!-- Control Flow Section -->
+                <section id="control-flow" class="mb-16 fade-in">
+                    <h2 class="text-3xl font-bold mb-6 text-orange-400 border-b border-gray-700 pb-2">Control Flow</h2>
+
+                    <h3 class="text-xl font-bold mt-6 mb-3">If Statements</h3>
+                    <p class="mb-4">Conditional execution with if statements:</p>
+
+                    <div class="code-block rounded-lg p-4 mb-6">
+                        <pre><code class="text-sm"><span class="keyword">let</span> <span class="type">int</span> x = <span class="number">10</span>
+
+<span class="keyword">if</span> x > <span class="number">5</span>
+    <span class="keyword">print</span> <span class="string">"x is greater than 5"</span>
+<span class="keyword">end</span>
+
+<span class="keyword">if</span> x == <span class="number">10</span>
+    <span class="keyword">print</span> <span class="string">"x is exactly 10"</span>
+<span class="keyword">end</span></code></pre>
+    </div>
+
+    <h3 class="text-xl font-bold mt-6 mb-3">While Loops</h3>
+    <p class="mb-4">Execute a block of code repeatedly while a condition is true:</p>
+
+    <div class="code-block rounded-lg p-4 mb-6">
+        <pre><code class="text-sm"><span class="keyword">let</span> <span class="type">int</span> count = <span class="number">0</span>
+
+<span class="keyword">while</span> count < <span class="number">5</span>
+    <span class="keyword">print</span> count
+    count = count + <span class="number">1</span>
+<span class="keyword">end</span></code></pre>
+    </div>
+
+    <h3 class="text-xl font-bold mt-6 mb-3">For Loops</h3>
+    <p class="mb-4">Iterate over a range of values:</p>
+
+    <div class="code-block rounded-lg p-4 mb-6">
+        <pre><code class="text-sm"><span class="comment"># Syntax: for int &lt;var&gt; = &lt;start&gt; range &lt;end&gt;</span>
+<span class="keyword">for</span> <span class="type">int</span> i = <span class="number">0</span> <span class="keyword">range</span> <span class="number">5</span>
+    <span class="keyword">print</span> i  <span class="comment"># Prints 0, 1, 2, 3, 4</span>
+<span class="keyword">end</span></code></pre>
+    </div>
+</section>
+
+                <!-- Functions Section -->
+                <!-- Functions Section -->
+<section id="functions" class="mb-16 fade-in">
+    <h2 class="text-3xl font-bold mb-6 text-orange-400 border-b border-gray-700 pb-2">Functions</h2>
+
+    <h3 class="text-xl font-bold mt-6 mb-3">Function Definition</h3>
+    <p class="mb-4">Define functions with the <code class="keyword">fn</code> keyword:</p>
+
+    <div class="code-block rounded-lg p-4 mb-6">
+        <pre><code class="text-sm"><span class="comment"># Function without parameters</span>
+<span class="keyword">fn</span> greet()
+    <span class="keyword">print</span> <span class="string">"Hello, World!"</span>
+<span class="keyword">end</span>
+
+<span class="comment"># Function with parameters</span>
+<span class="keyword">fn</span> add(x, y)
+    <span class="keyword">return</span> x + y
+<span class="keyword">end</span></code></pre>
+    </div>
+
+    <h3 class="text-xl font-bold mt-6 mb-3">Function Calls</h3>
+    <p class="mb-4">Call functions by their name followed by parentheses:</p>
+
+    <div class="code-block rounded-lg p-4 mb-6">
+        <pre><code class="text-sm"><span class="comment"># Call function without parameters</span>
+greet()
+
+<span class="comment"># Call function with parameters</span>
+<span class="keyword">let</span> <span class="type">int</span> result = add(<span class="number">5</span>, <span class="number">3</span>)
+<span class="keyword">print</span> result  <span class="comment"># Prints 8</span></code></pre>
+    </div>
+
+    <h3 class="text-xl font-bold mt-6 mb-3">Return Values</h3>
+    <p class="mb-4">Functions can return values using the <code class="keyword">return</code> keyword:</p>
+
+    <div class="code-block rounded-lg p-4 mb-6">
+        <pre><code class="text-sm"><span class="keyword">fn</span> factorial(n)
+    <span class="keyword">if</span> n <= <span class="number">1</span>
+        <span class="keyword">return</span> <span class="number">1</span>
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> n * factorial(n - <span class="number">1</span>)
+<span class="keyword">end</span>
+
+<span class="keyword">let</span> <span class="type">int</span> fact = factorial(<span class="number">5</span>)
+<span class="keyword">print</span> fact  <span class="comment"># Prints 120</span></code></pre>
+    </div>
+</section>
+
+                <!-- Lists Section -->
+                <section id="lists" class="mb-16 fade-in">
+                    <h2 class="text-3xl font-bold mb-6 text-orange-400 border-b border-gray-700 pb-2">Lists</h2>
+
+                    <h3 class="text-xl font-bold mt-6 mb-3">List Creation</h3>
+                    <p class="mb-4">Create lists using square brackets:</p>
+
+                    <div class="code-block rounded-lg p-4 mb-6">
+    <pre><code class="text-sm"><span class="keyword">let</span> <span class="type">list</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]
+
+<span class="comment"># Add element to end</span>
+numbers.push(<span class="number">4</span>)
+<span class="keyword">print</span> numbers  <span class="comment"># [1, 2, 3, 4]</span>
+
+<span class="comment"># Remove last element</span>
+<span class="keyword">let</span> <span class="type">int</span> last = numbers.pop()
+<span class="keyword">print</span> last  <span class="comment"># 4</span>
+<span class="keyword">print</span> numbers  <span class="comment"># [1, 2, 3]</span>
+
+<span class="comment"># Get length</span>
+<span class="keyword">let</span> <span class="type">int</span> length = numbers.len()
+<span class="keyword">print</span> length  <span class="comment"># 3</span></code></pre>
+</div>
+
+                    <h3 class="text-xl font-bold mt-6 mb-3">List Access</h3>
+                    <p class="mb-4">Access list elements using zero-based indexing:</p>
+
+                    <div class="code-block rounded-lg p-4 mb-6">
+                        <pre><code class="text-sm"><span class="keyword">let</span> <span class="type">list</span> fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>, <span class="string">"cherry"</span>]
+
+<span class="comment"># Access by index</span>
+<span class="keyword">print</span> fruits[<span class="number">0</span>]  <span class="comment"># Prints "apple"</span>
+<span class="keyword">print</span> fruits[<span class="number">1</span>]  <span class="comment"># Prints "banana"</span>
+
+<span class="comment"># Modify element</span>
+fruits[<span class="number">1</span>] = <span class="string">"blueberry"</span>
+<span class="keyword">print</span> fruits[<span class="number">1</span>]  <span class="comment"># Prints "blueberry"</span></code></pre>
+                    </div>
+
+                    <h3 class="text-xl font-bold mt-6 mb-3">List Methods</h3>
+                    <p class="mb-4">Lists have built-in methods that can be called using dot notation:</p>
+
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-gray-800 rounded-lg overflow-hidden mb-6">
+                            <thead class="bg-gray-700">
+                                <tr>
+                                    <th class="py-3 px-4 text-left">Method</th>
+                                    <th class="py-3 px-4 text-left">Description</th>
+                                    <th class="py-3 px-4 text-left">Example</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-700">
+                                <tr>
+                                    <td class="py-3 px-4"><code class="identifier">push</code></td>
+                                    <td class="py-3 px-4">Add element to end of list</td>
+                                    <td class="py-3 px-4"><code>list.push(<span class="number">5</span>)</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4"><code class="identifier">pop</code></td>
+                                    <td class="py-3 px-4">Remove and return last element</td>
+                                    <td class="py-3 px-4"><code>list.pop()</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4"><code class="identifier">len</code></td>
+                                    <td class="py-3 px-4">Return length of list</td>
+                                    <td class="py-3 px-4"><code>list.len()</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="code-block rounded-lg p-4 mb-6">
+                        <pre><code class="text-sm"><span class="keyword">let</span> <span class="type">list</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]
+
+<span class="comment"># Add element to end</span>
+numbers.push(<span class="number">4</span>)
+<span class="keyword">print</span> numbers  <span class="comment"># [1, 2, 3, 4]</span>
+
+<span class="comment"># Remove last element</span>
+<span class="keyword">let</span> <span class="type">int</span> last = numbers.pop()
+<span class="keyword">print</span> last  <span class="comment"># 4</span>
+<span class="keyword">print</span> numbers  <span class="comment"># [1, 2, 3]</span>
+
+<span class="comment"># Get length</span>
+<span class="keyword">let</span> <span class="type">int</span> length = numbers.len()
+<span class="keyword">print</span> length  <span class="comment"># 3</span></code></pre>
+                    </div>
+                </section>
+
+                <!-- Built-in Functions Section -->
+                <section id="built-in-functions" class="mb-16 fade-in">
+                    <h2 class="text-3xl font-bold mb-6 text-orange-400 border-b border-gray-700 pb-2">Built-in Functions</h2>
+
+                    <h3 class="text-xl font-bold mt-6 mb-3">Print Function</h3>
+                    <p class="mb-4">The <code class="keyword">print</code> function outputs values to the console:</p>
+
+                    <div class="code-block rounded-lg p-4 mb-6">
+                        <pre><code class="text-sm"><span class="comment"># Print single value</span>
+<span class="keyword">print</span> <span class="string">"Hello, World!"</span>
+
+<span class="comment"># Print multiple values separated by commas</span>
+<span class="keyword">let</span> <span class="type">int</span> x = <span class="number">10</span>
+<span class="keyword">let</span> <span class="type">string</span> name = <span class="string">"Alice"</span>
+<span class="keyword">print</span> <span class="string">"Value:"</span>, x, <span class="string">"Name:"</span>, name</code></pre>
+                    </div>
+
+                    <h3 class="text-xl font-bold mt-6 mb-3">Input Function</h3>
+                    <p class="mb-4">The <code class="identifier">input</code> function reads user input from the console:</p>
+
+                    <div class="code-block rounded-lg p-4 mb-6">
+                        <pre><code class="text-sm"><span class="comment"># Read input without prompt</span>
+<span class="keyword">let</span> <span class="type">string</span> name = input()
+
+<span class="comment"># Read input with prompt</span>
+<span class="keyword">let</span> <span class="type">string</span> age_str = input(<span class="string">"Enter your age: "</span>)
+
+<span class="comment"># Convert string to integer</span>
+<span class="keyword">let</span> <span class="type">int</span> age = age_str  <span class="comment"># Type conversion happens automatically</span></code></pre>
+                    </div>
+                </section>
+
+                <!-- Embeddable Section -->
+<!-- Embeddable Section -->
+<section id="embeddable" class="mb-16 fade-in">
+    <h2 class="text-3xl font-bold mb-6 text-orange-400 border-b border-gray-700 pb-2">Embeddable Engine</h2>
+
+    <p class="mb-4">WolfLang can be embedded in Rust applications as a scripting engine, allowing you to execute WolfLang code from within your Rust programs and share data between Rust and WolfLang.</p>
+
+    <h3 class="text-xl font-bold mt-6 mb-3">Basic Usage</h3>
+    <p class="mb-4">Create a WolfEngine instance and run WolfLang code:</p>
+
+    <div class="code-block rounded-lg p-4 mb-6">
+        <pre><code class="text-sm"><span class="comment">// Import the WolfEngine</span>
+use wolflang::WolfEngine;
+
+<span class="comment">// Create a new engine instance</span>
+let mut engine = WolfEngine::new();
+
+<span class="comment">// Run WolfLang code</span>
+engine.run(r#"
+    let int x = 10
+    let int y = 20
+    let int result = x + y
+    print "Result:", result
+"#).unwrap();</code></pre>
+    </div>
+
+    <h3 class="text-xl font-bold mt-6 mb-3">Sharing Data with WolfLang</h3>
+    <p class="mb-4">You can push Rust values into the WolfLang environment and retrieve values after execution:</p>
+
+    <div class="code-block rounded-lg p-4 mb-6">
+        <pre><code class="text-sm"><span class="comment">// Create engine</span>
+let mut engine = WolfEngine::new();
+
+<span class="comment">// Push values from Rust to WolfLang</span>
+engine.push_int("initial_value", 42);
+engine.push_str("user_name", "Alice");
+engine.push_bool("is_active", true);
+
+<span class="comment">// Run code that uses these values</span>
+engine.run(r#"
+    let int new_value = initial_value * 2
+    print "Hello,", user_name
+    print "Active:", is_active
+"#).unwrap();
+
+<span class="comment">// Retrieve values back from WolfLang</span>
+if let Some(result) = engine.get_int("new_value") {
+    println!("Computed value: {}", result);
+}</code></pre>
+    </div>
+
+    <h3 class="text-xl font-bold mt-6 mb-3">Complete Integration Example</h3>
+    <p class="mb-4">Here's a complete example of embedding WolfLang in a Rust application:</p>
+
+    <div class="code-block rounded-lg p-4 mb-6">
+        <pre><code class="text-sm"><span class="comment">// main.rs</span>
+use wolflang::WolfEngine;
+
+fn main() {
+    let mut engine = WolfEngine::new();
+
+    <span class="comment">// Configure initial state</span>
+    engine.push_int("counter", 0);
+    engine.push_str("app_name", "MyRustApp");
+
+    <span class="comment">// WolfLang script that interacts with Rust data</span>
+    let script = r#"
+        print "Welcome to", app_name
+
+        <span class="comment"># Increment counter and perform calculations</span>
+        counter = counter + 1
+        let int squared = counter * counter
+        let int cubed = counter * counter * counter
+
+        print "Counter:", counter
+        print "Squared:", squared
+        print "Cubed:", cubed
+
+        <span class="comment"># Conditional logic based on counter value</span>
+        if counter > 5
+            print "Counter exceeded 5!"
+        end
+
+        <span class="comment"># Loop example</span>
+        let int sum = 0
+        for int i = 0 range counter
+            sum = sum + i
+        end
+        print "Sum of 0 to", counter - 1, "is", sum
+    "#;
+
+    <span class="comment">// Execute the script multiple times</span>
+    for _ in 0..3 {
+        if let Err(e) = engine.run(script) {
+            eprintln!("Script error: {}", e);
+        }
+
+        <span class="comment">// Update Rust state based on WolfLang execution</span>
+        if let Some(counter_val) = engine.get_int("counter") {
+            println!("Rust side: counter is now {}", counter_val);
+        }
+    }
+}</code></pre>
+    </div>
+</section>
+
+                <!-- Examples Section -->
+                <!-- Examples Section -->
+<section id="examples" class="mb-16 fade-in">
+    <h2 class="text-3xl font-bold mb-6 text-orange-400 border-b border-gray-700 pb-2">Examples</h2>
+
+    <h3 class="text-xl font-bold mt-6 mb-3">Hello World</h3>
+    <div class="code-block rounded-lg p-4 mb-6">
+        <pre><code class="text-sm"><span class="keyword">print</span> <span class="string">"Hello, World!"</span></code></pre>
+    </div>
+
+    <h3 class="text-xl font-bold mt-6 mb-3">Fibonacci Sequence</h3>
+    <div class="code-block rounded-lg p-4 mb-6">
+        <pre><code class="text-sm"><span class="keyword">fn</span> fibonacci(n)
+    <span class="keyword">if</span> n <= <span class="number">1</span>
+        <span class="keyword">return</span> n
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> fibonacci(n - <span class="number">1</span>) + fibonacci(n - <span class="number">2</span>)
+<span class="keyword">end</span>
+
+<span class="keyword">for</span> <span class="type">int</span> i = <span class="number">0</span> <span class="keyword">range</span> <span class="number">10</span>
+    <span class="keyword">print</span> fibonacci(i)
+<span class="keyword">end</span></code></pre>
+    </div>
+
+    <h3 class="text-xl font-bold mt-6 mb-3">Factorial Calculator</h3>
+    <div class="code-block rounded-lg p-4 mb-6">
+        <pre><code class="text-sm"><span class="keyword">fn</span> factorial(n)
+    <span class="keyword">if</span> n <= <span class="number">1</span>
+        <span class="keyword">return</span> <span class="number">1</span>
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> n * factorial(n - <span class="number">1</span>)
+<span class="keyword">end</span>
+
+<span class="keyword">let</span> <span class="type">string</span> input_str = input(<span class="string">"Enter a number: "</span>)
+<span class="keyword">let</span> <span class="type">int</span> num = input_str  <span class="comment"># Type conversion</span>
+<span class="keyword">let</span> <span class="type">int</span> result = factorial(num)
+<span class="keyword">print</span> <span class="string">"The factorial of"</span>, num, <span class="string">"is"</span>, result</code></pre>
+    </div>
+
+    <h3 class="text-xl font-bold mt-6 mb-3">List Operations</h3>
+    <div class="code-block rounded-lg p-4 mb-6">
+        <pre><code class="text-sm"><span class="comment"># Create a list</span>
+<span class="keyword">let</span> <span class="type">list</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]
+
+<span class="comment"># Add elements</span>
+numbers.push(<span class="number">4</span>)
+numbers.push(<span class="number">5</span>)
+
+<span class="comment"># Print all elements</span>
+<span class="keyword">for</span> <span class="type">int</span> i = <span class="number">0</span> <span class="keyword">range</span> numbers.len()
+    <span class="keyword">print</span> numbers[i]
+<span class="keyword">end</span>
+
+<span class="comment"># Remove last element</span>
+<span class="keyword">let</span> <span class="type">int</span> last = numbers.pop()
+<span class="keyword">print</span> <span class="string">"Removed:"</span>, last</code></pre>
+    </div>
+</section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 py-8 border-t border-gray-700">
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="https://github.com/islamfazliyev/Wolf-Lang" class="text-gray-400 hover:text-orange-400 transition-colors" target="_blank">
+                    <i class="fab fa-github text-xl"></i>
+                </a>
+            </div>
+            <p class="text-gray-400">WolfLang Programming Language &copy; 2023</p>
+            <p class="text-gray-500 text-sm mt-2">This documentation is for WolfLang v0.1</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Highlight active navigation link
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', function() {
+            let current = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 100)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Add fade-in animation to sections when they come into view
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>s
