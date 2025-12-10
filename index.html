@@ -116,7 +116,7 @@
                     <img src="https://raw.githubusercontent.com/islamfazliyev/Wolf-Lang/eac9c8081b6f0b0fdd95f59f217c25b92555e730/assets/wolflang.svg" alt="WolfLang Logo" class="h-24 w-24">
                 </div>
                 <h1 class="text-4xl md:text-5xl font-bold mb-6">WolfLang Programming Language</h1>
-                <p class="text-xl text-gray-300 mb-8">A statically-typed, interpreted programming language with a focus on simplicity and performance.</p>
+                <p class="text-xl text-gray-300 mb-8">A statically-typed, interpreted programming language with a focus on simplicity, type safety, and embeddability.</p>
                 <div class="flex justify-center space-x-4">
                     <a href="#getting-started" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors">
                         Get Started
@@ -151,18 +151,17 @@
             <div class="w-full lg:w-3/4">
                 <section id="overview" class="mb-16 fade-in">
                     <h2 class="text-3xl font-bold mb-6 text-orange-400 border-b border-gray-700 pb-2">Overview</h2>
-                    <p class="mb-4">WolfLang is a statically-typed, interpreted programming language designed for simplicity and educational purposes. It features a clean syntax, static type checking, and support for common programming constructs.</p>
+                    <p class="mb-4">WolfLang is a statically-typed, interpreted programming language designed for simplicity. It features strong type checking, lexical scoping, and a Rust-based embeddable engine.</p>
 
                     <div class="bg-gray-800 rounded-lg p-6 mt-6">
                         <h3 class="text-xl font-bold mb-3 text-orange-400">Key Features</h3>
                         <ul class="list-disc pl-6 space-y-2">
-                            <li>Statically typed with type inference</li>
-                            <li>Support for common data types (int, float, string, bool, list)</li>
+                            <li>Statically typed with explicit type declarations</li>
+                            <li>Strict type checking for variables and lists</li>
+                            <li>Generics support for List types (e.g., <code>list&lt;int&gt;</code>)</li>
                             <li>Lexical scoping with variable shadowing</li>
-                            <li>Control flow statements (if, while, for)</li>
-                            <li>Function definitions and calls</li>
-                            <li>List data structure with built-in methods</li>
-                            <li>Error handling with detailed error messages</li>
+                            <li>Control flow (if/else, while, for)</li>
+                            <li>Functions with typed parameters</li>
                         </ul>
                     </div>
                 </section>
@@ -185,11 +184,11 @@
                     <div class="mb-6">
                         <h4 class="font-bold mb-2">2. Interactive Mode</h4>
                         <div class="code-block rounded-lg p-4 mb-4">
-                            <pre><code class="text-sm"><span class="comment"># Run the WolfLang interpreter without arguments</span>
+                            <pre><code class="text-sm"><span class="comment"># Run the WolfLang interpreter</span>
 ./wolflang
 
 <span class="comment"># Type your code, then type 'run()' to execute</span>
-<span class="keyword">let</span> <span class="type">int</span> x = <span class="number">10</span>
+<span class="keyword">let</span> x: <span class="type">int</span> = <span class="number">10</span>
 <span class="keyword">print</span> x
 run()</code></pre>
                         </div>
@@ -198,7 +197,7 @@ run()</code></pre>
 
                 <section id="data-types" class="mb-16 fade-in">
                     <h2 class="text-3xl font-bold mb-6 text-orange-400 border-b border-gray-700 pb-2">Data Types</h2>
-                    <p class="mb-4">WolfLang supports several primitive data types and one composite type:</p>
+                    <p class="mb-4">WolfLang supports strict primitive data types and generic composite types:</p>
 
                     <div class="overflow-x-auto">
                         <table class="min-w-full bg-gray-800 rounded-lg overflow-hidden mb-6">
@@ -237,9 +236,9 @@ run()</code></pre>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-4">List</td>
-                                    <td class="py-3 px-4"><code class="type">list</code></td>
-                                    <td class="py-3 px-4">Collection of values</td>
-                                    <td class="py-3 px-4"><code>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</code></td>
+                                    <td class="py-3 px-4"><code class="type">list&lt;T&gt;</code></td>
+                                    <td class="py-3 px-4">Typed collection of values</td>
+                                    <td class="py-3 px-4"><code>[<span class="number">1</span>, <span class="number">2</span>]</code> (as <code>list&lt;int&gt;</code>)</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -250,38 +249,41 @@ run()</code></pre>
                     <h2 class="text-3xl font-bold mb-6 text-orange-400 border-b border-gray-700 pb-2">Variables</h2>
 
                     <h3 class="text-xl font-bold mt-6 mb-3">Variable Declaration</h3>
-                    <p class="mb-4">Variables in WolfLang must be declared with an explicit type:</p>
+                    <p class="mb-4">Variables in WolfLang must be declared with an explicit type followed by a colon. Lists require inner type definition using angle brackets:</p>
 
                     <div class="code-block rounded-lg p-4 mb-6">
                         <pre><code class="text-sm"><span class="comment"># Variable declaration syntax</span>
-<span class="keyword">let</span> <span class="type">&lt;type&gt;</span> <span class="identifier">&lt;name&gt;</span> = <span class="identifier">&lt;value&gt;</span>
+<span class="keyword">let</span> <span class="identifier">&lt;name&gt;</span>: <span class="type">&lt;type&gt;</span> = <span class="identifier">&lt;value&gt;</span>
 
 <span class="comment"># Examples</span>
-<span class="keyword">let</span> <span class="type">int</span> age = <span class="number">25</span>
-<span class="keyword">let</span> <span class="type">float</span> price = <span class="number">19.99</span>
-<span class="keyword">let</span> <span class="type">string</span> name = <span class="string">"Alice"</span>
-<span class="keyword">let</span> <span class="type">bool</span> is_active = <span class="keyword">true</span>
-<span class="keyword">let</span> <span class="type">list</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</code></pre>
+<span class="keyword">let</span> age: <span class="type">int</span> = <span class="number">25</span>
+<span class="keyword">let</span> price: <span class="type">float</span> = <span class="number">19.99</span>
+<span class="keyword">let</span> name: <span class="type">string</span> = <span class="string">"Alice"</span>
+<span class="keyword">let</span> is_active: <span class="type">bool</span> = <span class="keyword">true</span>
+
+<span class="comment"># List Declaration (Must specify inner type)</span>
+<span class="keyword">let</span> numbers: <span class="type">list&lt;int&gt;</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]
+<span class="keyword">let</span> names: <span class="type">list&lt;string&gt;</span> = [<span class="string">"Alice"</span>, <span class="string">"Bob"</span>]</code></pre>
                     </div>
 
                     <h3 class="text-xl font-bold mt-6 mb-3">Variable Assignment</h3>
-                    <p class="mb-4">Once declared, variables can be reassigned with new values of the same type:</p>
+                    <p class="mb-4">Once declared, variables can be reassigned, but the new value must match the original type exactly. WolfLang enforces strict type compatibility:</p>
 
                     <div class="code-block rounded-lg p-4 mb-6">
-                        <pre><code class="text-sm"><span class="keyword">let</span> <span class="type">int</span> count = <span class="number">10</span>
+                        <pre><code class="text-sm"><span class="keyword">let</span> count: <span class="type">int</span> = <span class="number">10</span>
 count = <span class="number">20</span>  <span class="comment"># Valid - same type</span>
 <span class="comment"># count = "hello"  # Error - type mismatch!</span></code></pre>
                     </div>
 
                     <h3 class="text-xl font-bold mt-6 mb-3">Scope</h3>
-                    <p class="mb-4">WolfLang uses lexical scoping with variable shadowing. Variables can be accessed from inner scopes, and inner scopes can shadow variables from outer scopes.</p>
+                    <p class="mb-4">WolfLang uses lexical scoping with variable shadowing. Variables defined in inner blocks (if/while/for) shadow variables with the same name in outer blocks.</p>
 
                     <div class="code-block rounded-lg p-4 mb-6">
-                        <pre><code class="text-sm"><span class="keyword">let</span> <span class="type">int</span> x = <span class="number">10</span>  <span class="comment"># Global scope</span>
+                        <pre><code class="text-sm"><span class="keyword">let</span> x: <span class="type">int</span> = <span class="number">10</span>  <span class="comment"># Global scope</span>
 
 <span class="keyword">if</span> x > <span class="number">5</span>
-    <span class="keyword">let</span> <span class="type">int</span> y = <span class="number">20</span>  <span class="comment"># Local scope</span>
-    <span class="keyword">let</span> <span class="type">int</span> x = <span class="number">30</span>  <span class="comment"># Shadows the global x</span>
+    <span class="keyword">let</span> y: <span class="type">int</span> = <span class="number">20</span>  <span class="comment"># Local scope</span>
+    <span class="keyword">let</span> x: <span class="type">int</span> = <span class="number">30</span>  <span class="comment"># Shadows the global x</span>
     <span class="keyword">print</span> x  <span class="comment"># Prints 30</span>
     <span class="keyword">print</span> y  <span class="comment"># Prints 20</span>
 <span class="keyword">end</span>
@@ -307,8 +309,8 @@ count = <span class="number">20</span>  <span class="comment"># Valid - same typ
                             <tbody class="divide-y divide-gray-700">
                                 <tr>
                                     <td class="py-3 px-4"><code class="operator">+</code></td>
-                                    <td class="py-3 px-4">Addition</td>
-                                    <td class="py-3 px-4"><code class="number">5 + 3</code> → <code class="number">8</code></td>
+                                    <td class="py-3 px-4">Addition / Concatenation</td>
+                                    <td class="py-3 px-4"><code class="number">5 + 3</code> → <code class="number">8</code>, <code class="string">"A" + "B"</code> → <code class="string">"AB"</code></td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-4"><code class="operator">-</code></td>
@@ -330,6 +332,7 @@ count = <span class="number">20</span>  <span class="comment"># Valid - same typ
                     </div>
 
                     <h3 class="text-xl font-bold mt-6 mb-3">Comparison Operators</h3>
+                    <p class="mb-4">WolfLang enforces that comparisons must happen between matching types (e.g., int vs int, float vs float).</p>
                     <div class="overflow-x-auto">
                         <table class="min-w-full bg-gray-800 rounded-lg overflow-hidden mb-6">
                             <thead class="bg-gray-700">
@@ -378,18 +381,16 @@ count = <span class="number">20</span>  <span class="comment"># Valid - same typ
                 <section id="control-flow" class="mb-16 fade-in">
                     <h2 class="text-3xl font-bold mb-6 text-orange-400 border-b border-gray-700 pb-2">Control Flow</h2>
 
-                    <h3 class="text-xl font-bold mt-6 mb-3">If Statements</h3>
-                    <p class="mb-4">Conditional execution with if statements:</p>
+                    <h3 class="text-xl font-bold mt-6 mb-3">If / Else Statements</h3>
+                    <p class="mb-4">Conditional execution with if and else statements. The blocks must be closed with <code class="keyword">end</code>.</p>
 
                     <div class="code-block rounded-lg p-4 mb-6">
-                        <pre><code class="text-sm"><span class="keyword">let</span> <span class="type">int</span> x = <span class="number">10</span>
+                        <pre><code class="text-sm"><span class="keyword">let</span> x: <span class="type">int</span> = <span class="number">10</span>
 
 <span class="keyword">if</span> x > <span class="number">5</span>
     <span class="keyword">print</span> <span class="string">"x is greater than 5"</span>
-<span class="keyword">end</span>
-
-<span class="keyword">if</span> x == <span class="number">10</span>
-    <span class="keyword">print</span> <span class="string">"x is exactly 10"</span>
+<span class="keyword">else</span>
+    <span class="keyword">print</span> <span class="string">"x is not greater than 5"</span>
 <span class="keyword">end</span></code></pre>
                     </div>
 
@@ -397,7 +398,7 @@ count = <span class="number">20</span>  <span class="comment"># Valid - same typ
                     <p class="mb-4">Execute a block of code repeatedly while a condition is true:</p>
 
                     <div class="code-block rounded-lg p-4 mb-6">
-                        <pre><code class="text-sm"><span class="keyword">let</span> <span class="type">int</span> count = <span class="number">0</span>
+                        <pre><code class="text-sm"><span class="keyword">let</span> count: <span class="type">int</span> = <span class="number">0</span>
 
 <span class="keyword">while</span> count < <span class="number">5</span>
     <span class="keyword">print</span> count
@@ -406,7 +407,7 @@ count = <span class="number">20</span>  <span class="comment"># Valid - same typ
                     </div>
 
                     <h3 class="text-xl font-bold mt-6 mb-3">For Loops</h3>
-                    <p class="mb-4">Iterate over a range of values:</p>
+                    <p class="mb-4">Iterate over a range of integer values. Note that unlike variable declaration, the for loop syntax strictly follows: <code class="keyword">for</code> <code class="type">int</code> <code class="identifier">&lt;name&gt;</code> <code class="operator">=</code> ....</p>
 
                     <div class="code-block rounded-lg p-4 mb-6">
                         <pre><code class="text-sm"><span class="comment"># Syntax: for int &lt;var&gt; = &lt;start&gt; range &lt;end&gt;</span>
@@ -420,7 +421,7 @@ count = <span class="number">20</span>  <span class="comment"># Valid - same typ
                     <h2 class="text-3xl font-bold mb-6 text-orange-400 border-b border-gray-700 pb-2">Functions</h2>
 
                     <h3 class="text-xl font-bold mt-6 mb-3">Function Definition</h3>
-                    <p class="mb-4">Define functions with the <code class="keyword">fn</code> keyword:</p>
+                    <p class="mb-4">Define functions with the <code class="keyword">fn</code> keyword. Parameters <strong>must</strong> have explicit types separated by a colon:</p>
 
                     <div class="code-block rounded-lg p-4 mb-6">
                         <pre><code class="text-sm"><span class="comment"># Function without parameters</span>
@@ -428,21 +429,21 @@ count = <span class="number">20</span>  <span class="comment"># Valid - same typ
     <span class="keyword">print</span> <span class="string">"Hello, World!"</span>
 <span class="keyword">end</span>
 
-<span class="comment"># Function with parameters</span>
-<span class="keyword">fn</span> add(x, y)
+<span class="comment"># Function with typed parameters</span>
+<span class="keyword">fn</span> add(x: <span class="type">int</span>, y: <span class="type">int</span>)
     <span class="keyword">return</span> x + y
 <span class="keyword">end</span></code></pre>
                     </div>
 
                     <h3 class="text-xl font-bold mt-6 mb-3">Function Calls</h3>
-                    <p class="mb-4">Call functions by their name followed by parentheses:</p>
+                    <p class="mb-4">Call functions by their name followed by parentheses. Arguments must match the defined types exactly.</p>
 
                     <div class="code-block rounded-lg p-4 mb-6">
                         <pre><code class="text-sm"><span class="comment"># Call function without parameters</span>
 greet()
 
 <span class="comment"># Call function with parameters</span>
-<span class="keyword">let</span> <span class="type">int</span> result = add(<span class="number">5</span>, <span class="number">3</span>)
+<span class="keyword">let</span> result: <span class="type">int</span> = add(<span class="number">5</span>, <span class="number">3</span>)
 <span class="keyword">print</span> result  <span class="comment"># Prints 8</span></code></pre>
                     </div>
 
@@ -450,14 +451,14 @@ greet()
                     <p class="mb-4">Functions can return values using the <code class="keyword">return</code> keyword:</p>
 
                     <div class="code-block rounded-lg p-4 mb-6">
-                        <pre><code class="text-sm"><span class="keyword">fn</span> factorial(n)
+                        <pre><code class="text-sm"><span class="keyword">fn</span> factorial(n: <span class="type">int</span>)
     <span class="keyword">if</span> n <= <span class="number">1</span>
         <span class="keyword">return</span> <span class="number">1</span>
     <span class="keyword">end</span>
     <span class="keyword">return</span> n * factorial(n - <span class="number">1</span>)
 <span class="keyword">end</span>
 
-<span class="keyword">let</span> <span class="type">int</span> fact = factorial(<span class="number">5</span>)
+<span class="keyword">let</span> fact: <span class="type">int</span> = factorial(<span class="number">5</span>)
 <span class="keyword">print</span> fact  <span class="comment"># Prints 120</span></code></pre>
                     </div>
                 </section>
@@ -466,34 +467,32 @@ greet()
                     <h2 class="text-3xl font-bold mb-6 text-orange-400 border-b border-gray-700 pb-2">Lists</h2>
 
                     <h3 class="text-xl font-bold mt-6 mb-3">List Creation</h3>
-                    <p class="mb-4">Create lists using square brackets:</p>
+                    <p class="mb-4">Create lists using square brackets and explicit type definitions (e.g., <code class="type">list&lt;int&gt;</code>):</p>
 
                     <div class="code-block rounded-lg p-4 mb-6">
-                        <pre><code class="text-sm"><span class="keyword">let</span> <span class="type">list</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]
+                        <pre><code class="text-sm"><span class="keyword">let</span> numbers: <span class="type">list&lt;int&gt;</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]
 
 <span class="comment"># Add element to end</span>
 numbers.push(<span class="number">4</span>)
 <span class="keyword">print</span> numbers  <span class="comment"># [1, 2, 3, 4]</span>
 
 <span class="comment"># Remove last element</span>
-<span class="keyword">let</span> <span class="type">int</span> last = numbers.pop()
+<span class="keyword">let</span> last: <span class="type">int</span> = numbers.pop()
 <span class="keyword">print</span> last  <span class="comment"># 4</span>
-<span class="keyword">print</span> numbers  <span class="comment"># [1, 2, 3]</span>
 
 <span class="comment"># Get length</span>
-<span class="keyword">let</span> <span class="type">int</span> length = numbers.len()
+<span class="keyword">let</span> length: <span class="type">int</span> = numbers.len()
 <span class="keyword">print</span> length  <span class="comment"># 3</span></code></pre>
                     </div>
 
-                    <h3 class="text-xl font-bold mt-6 mb-3">List Access</h3>
-                    <p class="mb-4">Access list elements using zero-based indexing:</p>
+                    <h3 class="text-xl font-bold mt-6 mb-3">List Access & Modification</h3>
+                    <p class="mb-4">Access list elements using zero-based indexing inside square brackets. Elements can also be modified via index assignment.</p>
 
                     <div class="code-block rounded-lg p-4 mb-6">
-                        <pre><code class="text-sm"><span class="keyword">let</span> <span class="type">list</span> fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>, <span class="string">"cherry"</span>]
+                        <pre><code class="text-sm"><span class="keyword">let</span> fruits: <span class="type">list&lt;string&gt;</span> = [<span class="string">"apple"</span>, <span class="string">"banana"</span>, <span class="string">"cherry"</span>]
 
 <span class="comment"># Access by index</span>
 <span class="keyword">print</span> fruits[<span class="number">0</span>]  <span class="comment"># Prints "apple"</span>
-<span class="keyword">print</span> fruits[<span class="number">1</span>]  <span class="comment"># Prints "banana"</span>
 
 <span class="comment"># Modify element</span>
 fruits[<span class="number">1</span>] = <span class="string">"blueberry"</span>
@@ -544,23 +543,17 @@ fruits[<span class="number">1</span>] = <span class="string">"blueberry"</span>
 <span class="keyword">print</span> <span class="string">"Hello, World!"</span>
 
 <span class="comment"># Print multiple values separated by commas</span>
-<span class="keyword">let</span> <span class="type">int</span> x = <span class="number">10</span>
-<span class="keyword">let</span> <span class="type">string</span> name = <span class="string">"Alice"</span>
+<span class="keyword">let</span> x: <span class="type">int</span> = <span class="number">10</span>
+<span class="keyword">let</span> name: <span class="type">string</span> = <span class="string">"Alice"</span>
 <span class="keyword">print</span> <span class="string">"Value:"</span>, x, <span class="string">"Name:"</span>, name</code></pre>
                     </div>
 
-                    <h3 class="text-xl font-bold mt-6 mb-3">Input Function</h3>
-                    <p class="mb-4">The <code class="identifier">input</code> function reads user input from the console:</p>
-
+                    <h3 class="text-xl font-bold mt-6 mb-3">String Methods</h3>
+                    <p class="mb-4">Strings support specific methods via dot notation:</p>
                     <div class="code-block rounded-lg p-4 mb-6">
-                        <pre><code class="text-sm"><span class="comment"># Read input without prompt</span>
-<span class="keyword">let</span> <span class="type">string</span> name = input()
-
-<span class="comment"># Read input with prompt</span>
-<span class="keyword">let</span> <span class="type">string</span> age_str = input(<span class="string">"Enter your age: "</span>)
-
-<span class="comment"># Convert string to integer</span>
-<span class="keyword">let</span> <span class="type">int</span> age = age_str  <span class="comment"># Type conversion happens automatically</span></code></pre>
+                         <pre><code class="text-sm"><span class="keyword">let</span> s: <span class="type">string</span> = <span class="string">"hello"</span>
+<span class="keyword">print</span> s.len()        <span class="comment"># 5</span>
+<span class="keyword">print</span> s.uppercase()  <span class="comment"># "HELLO"</span></code></pre>
                     </div>
                 </section>
 
@@ -581,9 +574,9 @@ let mut engine = WolfEngine::new();
 
 <span class="comment">// Run WolfLang code</span>
 engine.run(r#"
-    let int x = 10
-    let int y = 20
-    let int result = x + y
+    let x: int = 10
+    let y: int = 20
+    let result: int = x + y
     print "Result:", result
 "#).unwrap();</code></pre>
                     </div>
@@ -602,7 +595,7 @@ engine.push_bool("is_active", true);
 
 <span class="comment">// Run code that uses these values</span>
 engine.run(r#"
-    let int new_value = initial_value * 2
+    let new_value: int = initial_value * 2
     print "Hello,", user_name
     print "Active:", is_active
 "#).unwrap();
@@ -633,8 +626,8 @@ fn main() {
 
         <span class="comment"># Increment counter and perform calculations</span>
         counter = counter + 1
-        let int squared = counter * counter
-        let int cubed = counter * counter * counter
+        let squared: int = counter * counter
+        let cubed: int = counter * counter * counter
 
         print "Counter:", counter
         print "Squared:", squared
@@ -645,8 +638,8 @@ fn main() {
             print "Counter exceeded 5!"
         end
 
-        <span class="comment"># Loop example</span>
-        let int sum = 0
+        <span class="comment"># Loop example (Note: 'for int' syntax for loops)</span>
+        let sum: int = 0
         for int i = 0 range counter
             sum = sum + i
         end
@@ -678,7 +671,7 @@ fn main() {
 
                     <h3 class="text-xl font-bold mt-6 mb-3">Fibonacci Sequence</h3>
                     <div class="code-block rounded-lg p-4 mb-6">
-                        <pre><code class="text-sm"><span class="keyword">fn</span> fibonacci(n)
+                        <pre><code class="text-sm"><span class="keyword">fn</span> fibonacci(n: <span class="type">int</span>)
     <span class="keyword">if</span> n <= <span class="number">1</span>
         <span class="keyword">return</span> n
     <span class="keyword">end</span>
@@ -692,23 +685,22 @@ fn main() {
 
                     <h3 class="text-xl font-bold mt-6 mb-3">Factorial Calculator</h3>
                     <div class="code-block rounded-lg p-4 mb-6">
-                        <pre><code class="text-sm"><span class="keyword">fn</span> factorial(n)
+                        <pre><code class="text-sm"><span class="keyword">fn</span> factorial(n: <span class="type">int</span>)
     <span class="keyword">if</span> n <= <span class="number">1</span>
         <span class="keyword">return</span> <span class="number">1</span>
     <span class="keyword">end</span>
     <span class="keyword">return</span> n * factorial(n - <span class="number">1</span>)
 <span class="keyword">end</span>
 
-<span class="keyword">let</span> <span class="type">string</span> input_str = input(<span class="string">"Enter a number: "</span>)
-<span class="keyword">let</span> <span class="type">int</span> num = input_str  <span class="comment"># Type conversion</span>
-<span class="keyword">let</span> <span class="type">int</span> result = factorial(num)
+<span class="keyword">let</span> num: <span class="type">int</span> = <span class="number">5</span>
+<span class="keyword">let</span> result: <span class="type">int</span> = factorial(num)
 <span class="keyword">print</span> <span class="string">"The factorial of"</span>, num, <span class="string">"is"</span>, result</code></pre>
                     </div>
 
                     <h3 class="text-xl font-bold mt-6 mb-3">List Operations</h3>
                     <div class="code-block rounded-lg p-4 mb-6">
-                        <pre><code class="text-sm"><span class="comment"># Create a list</span>
-<span class="keyword">let</span> <span class="type">list</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]
+                        <pre><code class="text-sm"><span class="comment"># Create a typed list</span>
+<span class="keyword">let</span> numbers: <span class="type">list&lt;int&gt;</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]
 
 <span class="comment"># Add elements</span>
 numbers.push(<span class="number">4</span>)
@@ -720,7 +712,7 @@ numbers.push(<span class="number">5</span>)
 <span class="keyword">end</span>
 
 <span class="comment"># Remove last element</span>
-<span class="keyword">let</span> <span class="type">int</span> last = numbers.pop()
+<span class="keyword">let</span> last: <span class="type">int</span> = numbers.pop()
 <span class="keyword">print</span> <span class="string">"Removed:"</span>, last</code></pre>
                     </div>
                 </section>
